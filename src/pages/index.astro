@@ -1,11 +1,33 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import NavBar from "../components/NavBar.astro";
+import PostHighlight from "../components/PostHighlight.astro";
+import { getCollection } from "astro:content";
+const posts = (await getCollection("posts")).sort(
+	(a, b) => b.data.id - a.data.id,
+);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<div>
+	<Layout>
+		<div class="prose pl-6 pt-6 pr-6 m-auto">
+			<h1 class="prose font-bold text-2xl m-auto">Posts</h1>
+		</div>
+		
+		{
+			posts.length === 0 ?
+			<em class="ml-6">No posts to show</em> :
+			posts.map((post) => {
+				return (
+					<a href={`/posts/${post.id}`}>
+						<PostHighlight
+							title={post.data.title}
+							description={post.data.description}
+							date={post.data.date}
+						/>
+					</a>
+				);
+			})
+		}
+	</Layout>
+</div>
