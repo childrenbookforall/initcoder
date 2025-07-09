@@ -1,10 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import NavBar from "../components/NavBar.astro";
 import PostHighlight from "../components/PostHighlight.astro";
 import { getCollection } from "astro:content";
+
 const posts = (await getCollection("posts")).sort(
-	(a, b) => b.data.id - a.data.id,
+	(a, b) => {
+		if(a.data.pubDate && b.data.pubDate){
+			return (b.data.pubDate?.valueOf() - a.data.pubDate?.valueOf())
+		}
+		else
+			return 0
+	}
 );
 ---
 
@@ -12,8 +18,7 @@ const posts = (await getCollection("posts")).sort(
 	<Layout>
 		<div class="prose pl-6 pt-6 pr-6 m-auto">
 			<h1 class="prose font-bold text-2xl m-auto">Posts</h1>
-		</div>
-		
+		</div>		
 		{
 			posts.length === 0 ?
 			<em class="ml-6">No posts to show</em> :
@@ -23,7 +28,7 @@ const posts = (await getCollection("posts")).sort(
 						<PostHighlight
 							title={post.data.title}
 							description={post.data.description}
-							date={post.data.date}
+							date={post.data.pubDate}
 						/>
 					</a>
 				);

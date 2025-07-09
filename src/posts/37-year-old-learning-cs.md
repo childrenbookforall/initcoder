@@ -1,8 +1,7 @@
 ---
-id: 1
 title: A 37-year-old wanting to learn computer science
 description: Having worked in different career domains for several years, I have finally decided to take the plunge of doing what I've always wanted to do - learn computer science in depth.
-date: 5 July 2025 
+pubDate: 2025-07-05
 ---
 
 # Who am I?

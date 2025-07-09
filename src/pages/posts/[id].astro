@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import {formatDate} from "../../utils/myUtils";
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
@@ -12,12 +13,13 @@ export async function getStaticPaths() {
 // 2. For your template, you can get the entry directly from the prop
 const { post } = Astro.props;
 const { Content } = await render(post);
+
 ---
 
 <Layout>
     <div class="prose m-auto pl-6 pr-6 pb-12">
         <h1 class="text-center text-3xl font-bold mt-6">{post.data.title}</h1>
-        <p class="text-center italic text-sm mt-2">{post.data.date}</p>
+        <p class="text-center italic text-sm mt-2">{formatDate(post.data.pubDate)}</p>
         <div
             class="prose prose-headings:text-xl mt-12"
         >
